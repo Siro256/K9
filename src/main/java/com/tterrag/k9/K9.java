@@ -1,16 +1,10 @@
 package com.tterrag.k9;
 
 import java.io.File;
-import java.io.FilePermission;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Paths;
-import java.security.AccessControlException;
-import java.security.AccessController;
-import java.security.Policy;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 import java.util.function.Function;
 
@@ -83,19 +77,6 @@ public class K9 {
     }
 
     public static void main(String[] argv) {
-        String policyPath = "/policies/app.policy";
-        URL policy = K9.class.getResource(policyPath);
-        Objects.requireNonNull(policy, () -> "Could not find policy resource at " + policyPath);
-
-        System.setProperty("java.security.policy", policy.toString());
-        Policy.getPolicy().refresh();
-
-        try {
-            AccessController.checkPermission(new FilePermission(".", "read"));
-        } catch (AccessControlException e) {
-            throw new RuntimeException("Invalid policy settings!", e);
-        }
-        
         String protocol = K9.class.getResource("").getProtocol();
         if (!"jar".equals(protocol)) { // Only enable this in IDEs
             Hooks.onOperatorDebug();

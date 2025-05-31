@@ -3,7 +3,6 @@ package com.tterrag.k9.commands;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
-import java.security.AccessControlException;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -521,7 +520,7 @@ public class CommandClojure extends CommandBase {
                 return e;
             })
             .onErrorResume(TimeoutException.class, $ -> ctx.error("That took too long to execute!"))
-            .onErrorResume(e -> e instanceof AccessControlException || e instanceof SecurityException, $ -> ctx.error("Sorry, you're not allowed to do that!"))
+            .onErrorResume(e -> e instanceof SecurityException, $ -> ctx.error("Sorry, you're not allowed to do that!"))
             .onErrorResume(e -> e instanceof ArityException && SANDBOX_METHOD_NAME.matcher(((ArityException) e).name).matches(), e -> ctx.error("Incorrect number of arguments (" + ((ArityException) e).actual  + ")"))
             .onErrorResume(e -> e instanceof ArityException && ((ArityException) e).name.equals("sandbox/exec"), e -> ctx.error("Too many closing parentheses."))
             .onErrorResume(ctx::error)
