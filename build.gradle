@@ -70,7 +70,7 @@ dependencies {
     implementation 'com.github.ben-manes.caffeine:caffeine:2.8.0'
     implementation 'it.unimi.dsi:fastutil:8.2.2'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
-    implementation "com.beust:jcommander:1.72"
+    implementation "org.jcommander:jcommander:1.85"
     implementation 'net.jodah:typetools:0.6.1'
     implementation 'commons-io:commons-io:2.6'
     implementation 'org.jruby:jruby-complete:9.2.7.0'
