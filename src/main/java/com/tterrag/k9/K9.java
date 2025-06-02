@@ -10,6 +10,7 @@ import java.util.function.Function;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.defaultprovider.EnvironmentVariableDefaultProvider;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.tterrag.k9.commands.api.CommandRegistrar;
@@ -83,7 +84,12 @@ public class K9 {
         }
         
         Arguments args = new Arguments();
-        JCommander.newBuilder().addObject(args).build().parse(argv);
+        JCommander
+                .newBuilder()
+                .defaultProvider(new EnvironmentVariableDefaultProvider("K9_OPTS", ""))
+                .addObject(args)
+                .build()
+                .parse(argv);
         
         new K9(args).start().block();
     }
